@@ -178,9 +178,9 @@ leadForm.onsubmit=async e=>{
    image_name:file?.name||null,
    status:'pending'
   };
-  const {data:created,error}=await db.from('submissions').insert(payload).select('id').single();
+  const {error}=await db.from('submissions').insert(payload);
   if(error)throw error;
-  sendAdminAlert({event:'NEW HUNTERX FIELD REPORT',submission_id:created.id,name:payload.name||'anonymous',email:payload.email||'not supplied',lead_type:payload.lead_type,message:payload.message,attachment:payload.image_name||'none',status:'PENDING ARCHIVE REVIEW'});
+  sendAdminAlert({event:'NEW HUNTERX FIELD REPORT',name:payload.name||'anonymous',email:payload.email||'not supplied',lead_type:payload.lead_type,message:payload.message,attachment:payload.image_name||'none',status:'PENDING ARCHIVE REVIEW'});
   form.reset();updateLeadMediaPanel();form.classList.add('hidden');
   document.getElementById('leadSuccess').classList.remove('hidden');
   if(currentProfile?.role==='admin')loadAdminQueue();
