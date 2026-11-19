@@ -9,6 +9,8 @@
 @keyframes newThreadFlash{50%{background:#3a0000;color:#fff}}
 
 .badges{display:flex;flex-wrap:wrap;gap:4px}.badge88{width:88px;height:31px;border:2px outset #777;background:linear-gradient(#311,#050505);color:#fff;font:bold 9px Arial;text-align:center;display:flex;align-items:center;justify-content:center;line-height:1.05;text-decoration:none}.badge88:hover{background:#700;color:#fff}.under{font:bold 10px Arial;color:#ff0;background:#700;border:1px dashed #ff0;padding:3px;text-align:center;animation:blink 1s steps(1) infinite}.case-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}.case-card{border:1px solid #4b1414;background:#070505;padding:9px}.case-card h4{margin:0 0 5px;color:#ffb0b0}.case-card .status{font-size:10px}.manual-entry{border-left:3px solid #600;padding:7px 9px;margin:8px 0;background:#080606}.contact-note{border:1px dotted #665544;background:#0b0907;padding:8px;margin:10px 0}.ring-card{border:2px ridge #5b1a1a;background:#060606;padding:12px;margin:10px 0}.ring-logo{font:normal 28px Georgia,serif;color:#f33;text-shadow:0 0 8px #700}.ring-url{color:#6cf}.award{display:inline-block;border:2px groove #aaa;background:#161616;color:#ffda7a;padding:3px 5px;margin:2px;font:bold 9px Arial;text-align:center}.corny{text-align:center;font:10px Arial;color:#aaa}.corny img{image-rendering:pixelated}.smallcaps{letter-spacing:1px;font-weight:bold}.blinklink{animation:blink 1.3s steps(1) infinite}.page hr{border:0;border-top:1px dotted #443}
+
+.evidence-panel{border:1px dotted #624040;background:#080505;padding:9px;margin-top:10px}.evidence-panel input[type=file]{border:2px inset #666;background:#111}.evidence-status{margin-top:6px;min-height:15px}.review-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.review-actions .btn{margin-top:0}.evidence-preview{display:block;max-width:min(520px,100%);max-height:420px;object-fit:contain;border:5px solid #cfc4aa;background:#111;padding:3px;margin:10px 0;filter:contrast(1.05)}.community-report{border:1px solid #4b1414;background:#070505;padding:10px;margin:9px 0}.community-report h4{margin:0 0 5px;color:#ffb0b0}.community-report .report-body{white-space:pre-wrap}.quarantine{border:1px dashed #8a6611;background:#0c0902;color:#ffd77a;padding:7px;margin:8px 0}.approved-evidence{max-width:min(520px,100%);max-height:460px;object-fit:contain;border:6px solid #d3c6ad;background:#111;padding:3px;margin:8px 0;filter:sepia(.15) contrast(1.08)}
 </style>
 </head>
 <body>
@@ -54,9 +56,9 @@ type: "HUNTERX" to continue
 </div>
 <div id="newThreadPanel" class="hidden"><h3 class="red">CREATE NEW THREAD</h3><form class="form" id="theoryForm"><label>subject:</label><input id="subject" maxlength="120" required><label>message:</label><textarea id="message" maxlength="5000" required></textarea><button class="btn" id="postThreadButton" type="submit">POST TO MIRROR</button><div id="threadPostStatus" class="tiny" style="margin-top:8px;min-height:16px"></div></form></div>
 </section>
-<section class="page" id="join"><h2 class="title">JOIN THE SEARCH</h2><div class="rule"></div><p>If you have a sighting, story, photograph, family rumour, newspaper clipping, audio file, map correction or theory connected to any case, submit a lead below.</p><div class="notice"><b>ARCHIVE NOTE:</b> Do not trespass onto private property. Do not disturb evidence. If you find something, photograph it where it is before moving it.</div><form class="form" id="leadForm"><label>name / handle:</label><input id="leadName" name="name" maxlength="40"><label>email (optional):</label><input id="leadEmail" name="email" type="email"><label>type of lead:</label><select id="leadType" name="lead_type"><option>Eyewitness story</option><option>Photo / video</option><option>Document</option><option>Theory</option><option>Map / location clue</option></select><label>what did you find?</label><textarea id="leadText" name="message" required maxlength="1800"></textarea><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px"><button class="btn">SUBMIT TO ARCHIVE</button></form><div id="leadSuccess" class="lead-success hidden"><h3>TRANSMISSION RECEIVED.</h3><p><b class="amber">REPORT STATUS: [PENDING ARCHIVE REVIEW]</b></p><p>Your report has been queued for moderator inspection. If approved, it will be transferred into the public Case Archive.</p><p>Please wait for a reply on Instagram and follow <a href="https://www.instagram.com/literallykalyani/" target="_blank" rel="noopener">@literallykalyani</a> for updates.</p><p class="tiny">Do not submit the same lead repeatedly unless new evidence has appeared.</p><button class="btn" id="submitAnotherLead" type="button">SUBMIT ANOTHER LEAD</button></div><h3 class="red">FIELD CHECKLIST</h3><ul><li>Preserve originals. Upload copies.</li><li>Write down where and when you found the material.</li><li>Do not alter metadata if you can avoid it.</li><li>If a file changes after you download it, disconnect your computer.</li><li class="red">If the filename changes to your name, delete it.</li></ul></section>
+<section class="page" id="join"><h2 class="title">JOIN THE SEARCH</h2><div class="rule"></div><p>If you have a sighting, story, photograph, family rumour, newspaper clipping, audio file, map correction or theory connected to any case, submit a lead below.</p><div class="notice"><b>ARCHIVE NOTE:</b> Do not trespass onto private property. Do not disturb evidence. If you find something, photograph it where it is before moving it.</div><form class="form" id="leadForm"><label>name / handle:</label><input id="leadName" name="name" maxlength="40"><label>email (optional):</label><input id="leadEmail" name="email" type="email"><label>type of lead:</label><select id="leadType" name="lead_type"><option>Eyewitness story</option><option>Photo / video</option><option>Document</option><option>Theory</option><option>Map / location clue</option></select><label>what did you find?</label><textarea id="leadText" name="message" required maxlength="1800"></textarea><div id="leadMediaPanel" class="evidence-panel hidden"><b class="amber">ATTACH PHOTOGRAPHIC EVIDENCE</b><p class="tiny">JPG, PNG or WEBP only. 5 MB maximum. Images enter private quarantine and are not public until a moderator approves the report. Video files are not accepted on this mirror yet. Put a video link in the report text instead.</p><input id="leadImage" type="file" accept="image/jpeg,image/png,image/webp"><div id="leadMediaStatus" class="tiny evidence-status">RESEARCHER LOGIN REQUIRED FOR FILE UPLOADS. <a data-page="theories">[LOG IN]</a></div></div><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px"><button class="btn">SUBMIT TO ARCHIVE</button></form><div id="leadSuccess" class="lead-success hidden"><h3>TRANSMISSION RECEIVED.</h3><p><b class="amber">REPORT STATUS: [PENDING ARCHIVE REVIEW]</b></p><p>Your report and any attached evidence are in moderator quarantine. If approved, they will be transferred into the public Case Archive.</p><p>Please wait for a reply on Instagram and follow <a href="https://www.instagram.com/literallykalyani/" target="_blank" rel="noopener">@literallykalyani</a> for updates.</p><p class="tiny">Do not submit the same lead repeatedly unless new evidence has appeared.</p><button class="btn" id="submitAnotherLead" type="button">SUBMIT ANOTHER LEAD</button></div><h3 class="red">FIELD CHECKLIST</h3><ul><li>Preserve originals. Upload copies.</li><li>Write down where and when you found the material.</li><li>Do not alter metadata if you can avoid it.</li><li>If a file changes after you download it, disconnect your computer.</li><li class="red">If the filename changes to your name, delete it.</li></ul></section>
 
-<section class="page" id="cases"><h2 class="title">CASE ARCHIVE</h2><div class="rule"></div><div class="notice"><b>ARCHIVE RULE:</b> A case number means somebody documented it. It does not mean anybody solved it.</div><div class="case-grid"><div class="case-card"><h4>08-K // THE KAMLA INCIDENT</h4><div class="status red">STATUS: UNRESOLVED</div><p>Residential disturbance, possession reports, ritual intervention, missing records.</p><a data-page="case">[OPEN CASE FILE]</a> &nbsp; <a data-page="people">[PERSONS]</a></div><div class="case-card"><h4>31-B // BLACK DOG REPORTS</h4><div class="status amber">STATUS: ACTIVE</div><p>Recurring roadside animal sightings followed by vehicle failure and missing time.</p><a data-open="case31b">[READ SUMMARY]</a></div><div class="case-card"><h4>22-H // HIGHWAY 44 HITCHHIKER</h4><div class="status green">STATUS: ARCHIVED</div><p>Driver reports involving the same passenger description across sixteen years.</p><a data-open="case22h">[READ SUMMARY]</a></div><div class="case-card"><h4>11-M // MIRROR HOUSE</h4><div class="status red">STATUS: DO NOT ENTER</div><p>Vacant property where interior photographs show rooms not present on the floorplan.</p><a data-open="case11m">[READ SUMMARY]</a></div><div class="case-card"><h4>04-R // RINGING WELL</h4><div class="status amber">STATUS: DISPUTED</div><p>Bell tones recorded from a sealed well after midnight. Source never identified.</p><a data-open="case04r">[READ SUMMARY]</a></div><div class="case-card"><h4>??-X // NODE 072</h4><div class="status red blink">STATUS: NO CONTACT</div><p>Not a case. Yet.</p><a data-open="node72">[VIEW LAST PING]</a></div></div><div id="adminReviewPanel" class="hidden" style="margin-top:18px"><h3 class="red">:: ARCHIVE REVIEW QUEUE ::</h3><div class="notice"><b class="amber">ADMIN ACCESS ONLY:</b> Pending community reports appear here before public archival.</div><div id="adminReviewQueue"><span class="tiny amber">checking quarantine queue...</span></div></div></section>
+<section class="page" id="cases"><h2 class="title">CASE ARCHIVE</h2><div class="rule"></div><div class="notice"><b>ARCHIVE RULE:</b> A case number means somebody documented it. It does not mean anybody solved it.</div><div class="case-grid"><div class="case-card"><h4>08-K // THE KAMLA INCIDENT</h4><div class="status red">STATUS: UNRESOLVED</div><p>Residential disturbance, possession reports, ritual intervention, missing records.</p><a data-page="case">[OPEN CASE FILE]</a> &nbsp; <a data-page="people">[PERSONS]</a></div><div class="case-card"><h4>31-B // BLACK DOG REPORTS</h4><div class="status amber">STATUS: ACTIVE</div><p>Recurring roadside animal sightings followed by vehicle failure and missing time.</p><a data-open="case31b">[READ SUMMARY]</a></div><div class="case-card"><h4>22-H // HIGHWAY 44 HITCHHIKER</h4><div class="status green">STATUS: ARCHIVED</div><p>Driver reports involving the same passenger description across sixteen years.</p><a data-open="case22h">[READ SUMMARY]</a></div><div class="case-card"><h4>11-M // MIRROR HOUSE</h4><div class="status red">STATUS: DO NOT ENTER</div><p>Vacant property where interior photographs show rooms not present on the floorplan.</p><a data-open="case11m">[READ SUMMARY]</a></div><div class="case-card"><h4>04-R // RINGING WELL</h4><div class="status amber">STATUS: DISPUTED</div><p>Bell tones recorded from a sealed well after midnight. Source never identified.</p><a data-open="case04r">[READ SUMMARY]</a></div><div class="case-card"><h4>??-X // NODE 072</h4><div class="status red blink">STATUS: NO CONTACT</div><p>Not a case. Yet.</p><a data-open="node72">[VIEW LAST PING]</a></div></div><h3 class="red" style="margin-top:20px">:: COMMUNITY FIELD REPORTS ::</h3><div id="communityArchive"><span class="tiny amber">checking approved field reports...</span></div><div id="adminReviewPanel" class="hidden" style="margin-top:18px"><h3 class="red">:: ARCHIVE REVIEW QUEUE ::</h3><div class="notice"><b class="amber">ADMIN ACCESS ONLY:</b> Pending community reports appear here before public archival. Images remain private until approval.</div><div id="adminReviewQueue"><span class="tiny amber">checking quarantine queue...</span></div></div></section>
 <section class="page" id="manual"><h2 class="title">FIELD MANUAL v3.2</h2><div class="rule"></div><p class="tiny">Compiled from forum posts, field notes, folklore texts and people who learned the hard way.</p><div class="manual-entry"><b class="red">RULE 01: DOCUMENT FIRST.</b><br>Photograph the room before touching anything. Write down the time. Record what changed, not what you think caused it.</div><div class="manual-entry"><b class="red">RULE 02: HAVE AN EXIT.</b><br>If you enter a basement, attic, tunnel, abandoned building or suspiciously cheap motel room, know how you are leaving before you start investigating.</div><div class="manual-entry"><b class="red">RULE 03: DO NOT WORK ALONE.</b><br>Leave your route with somebody. Set a check-in time. If you miss it, they call you first and emergency services second.</div><div class="manual-entry"><b class="red">RULE 04: COMMON FIELD KIT.</b><br>Flashlight, backup light, batteries, first-aid kit, notebook, camera, water, phone charger, gloves and enough common sense to go home.</div><div class="manual-entry"><b class="red">RULE 05: FOLKLORE IS A LEAD, NOT PROOF.</b><br>Salt, iron, bells, prayers, symbols and local customs vary by tradition. Do not treat a forum post as a universal rule.</div><h3 class="red">FIELD SIGNS WE TAKE SERIOUSLY</h3><table class="oldtable"><tr><th>SIGN</th><th>WHAT TO DO</th></tr><tr><td>Repeated voices from empty rooms</td><td>Record from outside. Do not follow the sound blindly.</td></tr><tr><td>Clock / file timestamps disagree</td><td>Photograph both. Preserve originals.</td></tr><tr><td>Animal behavior changes abruptly</td><td>Back away. Do not corner the animal.</td></tr><tr><td>Same stranger reported by unrelated witnesses</td><td>Compare exact wording before sharing details between witnesses.</td></tr><tr><td>Your equipment starts naming you</td><td class="red">Leave.</td></tr></table><div class="under">FIELD MANUAL IS NEVER FINISHED. SEND CORRECTIONS.</div></section>
 <section class="page" id="contact"><h2 class="title">CONTACT THE WEBMASTER</h2><div class="rule"></div><p>Broken link? Case correction? Want your report removed? Trying to join the webring? Use the form below.</p><div class="contact-note"><b class="amber">PLEASE NOTE:</b> We are volunteers. Do not send chain mail, exorcism offers, cursed attachments, 14 MB BMP files, or “proof” that is obviously a Halloween mask.</div><form class="form" id="contactForm"><input type="hidden" name="form_type" value="HUNTERX webmaster contact"><label>name / handle:</label><input name="name" maxlength="40" required><label>reply email:</label><input name="email" type="email" required><label>reason:</label><select name="reason"><option>Case correction</option><option>Broken link</option><option>Webring request</option><option>Report removal</option><option>General message</option><option>Something is wrong with the site</option></select><label>message:</label><textarea name="message" maxlength="2000" required></textarea><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px"><button class="btn" type="submit">SEND TO WEBMASTER</button><div id="contactStatus" class="tiny" style="margin-top:8px;min-height:16px"></div></form><h3 class="red">OTHER CONTACT METHODS</h3><p class="tiny">IRC: #hunterx on irc.spookynet.invalid<br>AIM: hunterx_node071<br>ICQ: 000-071-404<br>Pager: stop asking</p><div class="badges"><a class="badge88" data-page="webring">JOIN THE<br>WEBRING</a><a class="badge88" data-page="theories">SIGN OUR<br>MESSAGE BOARD</a></div></section>
 <section class="page" id="webring"><h2 class="title">INDIAN PARANORMAL WEBRING</h2><div class="rule"></div><p>HUNTERX node 071 belongs to a loose ring of personal paranormal sites. Use the controls below to browse archived member profiles.</p><p>[<a id="ringPrev">PREV</a>] [<a id="ringRandom">RANDOM</a>] [<a id="ringNext">NEXT</a>]</p><div class="ring-card"><div class="ring-logo" id="ringName">...</div><div class="ring-url" id="ringUrl">...</div><p id="ringDesc"></p><p class="tiny" id="ringMeta"></p></div><h3 class="red">RING DIRECTORY</h3><table class="oldtable"><tr><th>#</th><th>SITE</th><th>TOPIC</th></tr><tr><td>068</td><td>SaltLine</td><td>protective folklore / field notes</td></tr><tr><td>069</td><td>DeadAir</td><td>EVP recordings / radio anomalies</td></tr><tr><td>070</td><td>NightRoad India</td><td>highway sightings / travel logs</td></tr><tr><td>071</td><td class="green">HUNTERX</td><td>case exchange / field network</td></tr><tr><td>072</td><td class="red">[NO RESPONSE]</td><td>last ping 09.11.04</td></tr><tr><td>073</td><td>GhoulSchool</td><td>folklore scans / book reviews</td></tr></table><div class="corny"><span class="award">PROUD MEMBER<br>SINCE 2003</span><span class="award">WEBRING<br>NODE 071</span></div></section>
@@ -71,9 +73,12 @@ const SUPABASE_KEY='sb_publishable_CVLhh-CDCGcKSSVxaI7TDw_adURh-7z';
 const FORMSPREE_ENDPOINT='https://formspree.io/f/mljbnpzo';
 const CONTACT_FORMSPREE_ENDPOINT='https://formspree.io/f/myewjajz';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let currentUser=null;let currentProfile=null;
+async function sendAdminAlert(fields,endpoint=CONTACT_FORMSPREE_ENDPOINT){try{const fd=new FormData();Object.entries(fields).forEach(([k,v])=>fd.append(k,v==null?'':String(v)));const response=await fetch(endpoint,{method:'POST',body:fd,headers:{Accept:'application/json'}});if(!response.ok)console.warn('admin email alert rejected',response.status)}catch(err){console.warn('admin email alert failed',err)}}
+
 
 const pages=[...document.querySelectorAll('.page')];
-function go(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active',a.dataset.page===id));scrollTo(0,0);location.hash=id==='home'?'':id;if(id==='theories')loadThreads();if(id==='cases')loadAdminQueue()}
+function go(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active',a.dataset.page===id));scrollTo(0,0);location.hash=id==='home'?'':id;if(id==='theories')loadThreads();if(id==='cases'){loadCommunityArchive();loadAdminQueue()}}
 document.querySelectorAll('[data-page]').forEach(a=>a.onclick=()=>go(a.dataset.page));
 if(location.hash&&document.getElementById(location.hash.slice(1)))go(location.hash.slice(1));
 setInterval(()=>clock.textContent='SYSTEM TIME: '+new Date().toLocaleTimeString(),1000);
@@ -112,48 +117,77 @@ document.querySelectorAll('.ring').forEach(a=>a.onclick=()=>moveRing(a.dataset.r
 setTimeout(()=>{const p=document.getElementById('ringPrev'),r=document.getElementById('ringRandom'),n=document.getElementById('ringNext');if(p){p.onclick=()=>moveRing('prev');r.onclick=()=>moveRing('random');n.onclick=()=>moveRing('next');renderRing()}},0);
 
 // ---------- COMMUNITY LEAD SUBMISSIONS ----------
+const leadMediaPanel=document.getElementById('leadMediaPanel');
+const leadImage=document.getElementById('leadImage');
+const leadMediaStatus=document.getElementById('leadMediaStatus');
+const ALLOWED_EVIDENCE_TYPES=new Set(['image/jpeg','image/png','image/webp']);
+const MAX_EVIDENCE_BYTES=5*1024*1024;
+function updateLeadMediaPanel(){
+ const on=leadType.value==='Photo / video';
+ leadMediaPanel.classList.toggle('hidden',!on);
+ if(!on){leadImage.value='';leadMediaStatus.textContent='RESEARCHER LOGIN REQUIRED FOR FILE UPLOADS. Text-only reports may be anonymous.';return}
+ leadMediaStatus.className='tiny evidence-status '+(currentUser?'green':'amber');
+ leadMediaStatus.textContent=currentUser?'PRIVATE EVIDENCE UPLINK READY. File stays quarantined until moderator approval.':'RESEARCHER LOGIN REQUIRED FOR FILE UPLOADS. Log in on the Theory Board first.';
+}
+leadType.addEventListener('change',updateLeadMediaPanel);
+leadImage.addEventListener('change',()=>{
+ const file=leadImage.files?.[0];
+ if(!file){updateLeadMediaPanel();return}
+ if(!ALLOWED_EVIDENCE_TYPES.has(file.type)){leadImage.value='';leadMediaStatus.className='tiny red evidence-status';leadMediaStatus.textContent='REJECTED: JPG, PNG OR WEBP ONLY.';return}
+ if(file.size>MAX_EVIDENCE_BYTES){leadImage.value='';leadMediaStatus.className='tiny red evidence-status';leadMediaStatus.textContent='REJECTED: FILE EXCEEDS 5 MB.';return}
+ leadMediaStatus.className='tiny green evidence-status';leadMediaStatus.textContent='ATTACHMENT READY: '+file.name+' // '+Math.ceil(file.size/1024)+' KB';
+});
+updateLeadMediaPanel();
+
+function evidencePathFor(file){
+ const ext=({'image/jpeg':'jpg','image/png':'png','image/webp':'webp'})[file.type]||'bin';
+ const token=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+'_'+Math.random().toString(16).slice(2));
+ return currentUser.id+'/'+Date.now()+'_'+token+'.'+ext;
+}
+
 leadForm.onsubmit=async e=>{
  e.preventDefault();
  const form=e.currentTarget;
- const button=form.querySelector('button');
- button.disabled=true;button.textContent='TRANSMITTING...';
- const payload={
-  submitted_by: currentUser?.id || null,
-  name: leadName.value.trim() || null,
-  email: leadEmail.value.trim() || null,
-  lead_type: leadType.value,
-  message: leadText.value.trim(),
-  status:'pending'
- };
+ const button=form.querySelector('button[type="submit"],button:not([type])');
+ const file=leadImage.files?.[0]||null;
+ if(file&&!currentUser){pop('RESEARCHER LOGIN REQUIRED FOR PHOTO UPLOADS.');leadMediaStatus.className='tiny red evidence-status';leadMediaStatus.textContent='LOG IN ON THE THEORY BOARD BEFORE ATTACHING EVIDENCE.';return}
+ if(file&&!ALLOWED_EVIDENCE_TYPES.has(file.type)){pop('EVIDENCE REJECTED: IMAGE TYPE NOT ALLOWED.');return}
+ if(file&&file.size>MAX_EVIDENCE_BYTES){pop('EVIDENCE REJECTED: 5 MB MAXIMUM.');return}
+ button.disabled=true;button.textContent=file?'UPLOADING EVIDENCE...':'TRANSMITTING...';
+ let uploadedPath=null;
  try{
-  const {error}=await db.from('submissions').insert(payload);
+  if(file){
+   uploadedPath=evidencePathFor(file);
+   leadMediaStatus.className='tiny amber evidence-status';leadMediaStatus.textContent='UPLOADING TO PRIVATE QUARANTINE...';
+   const {error:uploadError}=await db.storage.from('evidence').upload(uploadedPath,file,{cacheControl:'300',upsert:false,contentType:file.type});
+   if(uploadError)throw new Error('EVIDENCE UPLOAD FAILED: '+uploadError.message);
+   leadMediaStatus.className='tiny green evidence-status';leadMediaStatus.textContent='EVIDENCE QUARANTINED. TRANSMITTING REPORT...';
+  }
+  const payload={
+   submitted_by:currentUser?.id||null,
+   name:leadName.value.trim()||null,
+   email:leadEmail.value.trim()||null,
+   lead_type:leadType.value,
+   message:leadText.value.trim(),
+   image_path:uploadedPath,
+   image_name:file?.name||null,
+   status:'pending'
+  };
+  const {data:created,error}=await db.from('submissions').insert(payload).select('id').single();
   if(error)throw error;
-
-  // Email alert is best-effort. The database submission remains valid even if mail fails.
-  try{
-   const notice=new FormData();
-   notice.append('event','NEW HUNTERX FIELD REPORT');
-   notice.append('name',payload.name||'anonymous');
-   notice.append('email',payload.email||'not supplied');
-   notice.append('lead_type',payload.lead_type);
-   notice.append('message',payload.message);
-   notice.append('status','PENDING ARCHIVE REVIEW');
-   await fetch(FORMSPREE_ENDPOINT,{method:'POST',body:notice,headers:{Accept:'application/json'}});
-  }catch(mailErr){console.warn('lead saved, email alert failed',mailErr)}
-
-  form.reset();
-  form.classList.add('hidden');
+  sendAdminAlert({event:'NEW HUNTERX FIELD REPORT',submission_id:created.id,name:payload.name||'anonymous',email:payload.email||'not supplied',lead_type:payload.lead_type,message:payload.message,attachment:payload.image_name||'none',status:'PENDING ARCHIVE REVIEW'});
+  form.reset();updateLeadMediaPanel();form.classList.add('hidden');
   document.getElementById('leadSuccess').classList.remove('hidden');
   if(currentProfile?.role==='admin')loadAdminQueue();
  }catch(err){
-  console.error(err);
-  pop('TRANSMISSION FAILED. '+(err.message||'Archive uplink unavailable.'));
+  console.error(err);pop('TRANSMISSION FAILED. '+(err.message||'Archive uplink unavailable.'));
+  if(uploadedPath)console.warn('An unlinked quarantined upload may remain at',uploadedPath);
  }finally{button.disabled=false;button.textContent='SUBMIT TO ARCHIVE'}
 };
 document.getElementById('submitAnotherLead').onclick=()=>{
  document.getElementById('leadSuccess').classList.add('hidden');
  document.getElementById('leadForm').classList.remove('hidden');
- document.getElementById('leadName').focus();
+ document.getElementById('leadName').focus();updateLeadMediaPanel();
 };
 
 // ---------- CONTACT THE WEBMASTER ----------
@@ -171,7 +205,6 @@ if(contactForm)contactForm.onsubmit=async e=>{
 };
 
 // ---------- AUTH ----------
-let currentUser=null;let currentProfile=null;
 function authRedirectUrl(){return window.location.origin+window.location.pathname}
 function authMsg(text,ok=false){authMessage.textContent=text;authMessage.className='tiny '+(ok?'forum-ok':'forum-error')}
 async function refreshAuth(){
@@ -180,7 +213,8 @@ async function refreshAuth(){
   const {data:profile}=await db.from('profiles').select('id,handle,role').eq('id',currentUser.id).maybeSingle();currentProfile=profile||null;
   authLoggedOut.classList.add('hidden');authLoggedIn.classList.remove('hidden');newThreadPanel.classList.remove('hidden');currentHandle.textContent=currentProfile?.handle||currentUser.email;
  }else{authLoggedOut.classList.remove('hidden');authLoggedIn.classList.add('hidden');newThreadPanel.classList.add('hidden')}
- if(document.getElementById('cases')?.classList.contains('active'))loadAdminQueue();
+ updateLeadMediaPanel();
+ if(document.getElementById('cases')?.classList.contains('active')){loadCommunityArchive();loadAdminQueue();}
 }
 registerForm.onsubmit=async e=>{
  e.preventDefault();authMsg('requesting credentials...',true);
@@ -189,6 +223,7 @@ registerForm.onsubmit=async e=>{
  if(existing){authMsg('HANDLE ALREADY IN USE.');return}
  const {data,error}=await db.auth.signUp({email,password,options:{data:{handle},emailRedirectTo:authRedirectUrl()}});
  if(error){authMsg(error.message);return}
+ sendAdminAlert({event:'NEW HUNTERX RESEARCHER',handle,email});
  e.currentTarget.reset();
  if(data.session){authMsg('ACCESS GRANTED.',true);await refreshAuth();await loadThreads()}else authMsg('CHECK YOUR EMAIL. A validation message was sent.',true);
 };
@@ -201,26 +236,72 @@ loginForm.onsubmit=async e=>{
 logoutLink.onclick=async()=>{await db.auth.signOut();authMsg('DISCONNECTED.',true);await refreshAuth()};
 db.auth.onAuthStateChange(()=>setTimeout(refreshAuth,0));
 
-// ---------- ADMIN REVIEW QUEUE ----------
+// ---------- COMMUNITY ARCHIVE + ADMIN REVIEW ----------
+async function signedEvidenceUrl(path,seconds=600){
+ const {data,error}=await db.storage.from('evidence').createSignedUrl(path,seconds);
+ if(error)throw error;
+ return data.signedUrl;
+}
+
+async function loadCommunityArchive(){
+ const host=document.getElementById('communityArchive');if(!host)return;
+ host.innerHTML='<span class="tiny amber">checking approved field reports...</span>';
+ const {data,error}=await db.from('submissions').select('id,name,lead_type,message,image_path,image_name,created_at,status').eq('status','approved').order('created_at',{ascending:false});
+ if(error){host.textContent='ARCHIVE ERROR: '+error.message;host.className='red';return}
+ host.className='';host.innerHTML='';
+ if(!data?.length){host.innerHTML='<span class="tiny">NO COMMUNITY REPORTS HAVE CLEARED REVIEW.</span>';return}
+ for(const r of data){
+  const card=el('div','community-report');
+  card.appendChild(el('h4','', 'HX-R'+String(r.id).padStart(4,'0')+' // '+r.lead_type.toUpperCase()));
+  card.appendChild(el('div','tiny green','STATUS: ARCHIVED // '+fmtDate(r.created_at)));
+  card.appendChild(el('p','tiny','submitted by: '+(r.name||'anonymous researcher')));
+  card.appendChild(el('div','report-body',r.message));
+  if(r.image_path){
+   const mediaNote=el('div','tiny amber','APPROVED PHOTOGRAPHIC EVIDENCE: '+(r.image_name||'unnamed file'));card.appendChild(mediaNote);
+   try{const url=await signedEvidenceUrl(r.image_path,3600);const img=document.createElement('img');img.className='approved-evidence';img.loading='lazy';img.alt='Approved field evidence for report HX-R'+r.id;img.src=url;card.appendChild(img)}catch(err){card.appendChild(el('div','tiny red','EVIDENCE FILE TEMPORARILY UNAVAILABLE.'))}
+  }
+  host.appendChild(card);
+ }
+}
+
+async function reviewSubmission(id,status,imagePath=null){
+ if(!currentUser||currentProfile?.role!=='admin'){pop('ADMIN ACCESS REQUIRED.');return}
+ const label=status==='approved'?'APPROVE':'REJECT';
+ if(!confirm(label+' REPORT #'+id+'?'))return;
+ const {error}=await db.from('submissions').update({status,reviewed_at:new Date().toISOString(),reviewed_by:currentUser.id}).eq('id',id);
+ if(error){pop('REVIEW FAILED: '+error.message);return}
+ if(status==='rejected'&&imagePath){const {error:removeError}=await db.storage.from('evidence').remove([imagePath]);if(removeError)console.warn('rejected report saved but image cleanup failed',removeError)}
+ sendAdminAlert({event:'HUNTERX REPORT REVIEWED',submission_id:id,new_status:status});
+ pop(status==='approved'?'REPORT APPROVED AND MOVED TO PUBLIC ARCHIVE.':'REPORT REJECTED.');
+ await Promise.all([loadAdminQueue(),loadCommunityArchive()]);
+}
+
 async function loadAdminQueue(){
  const panel=document.getElementById('adminReviewPanel');
  const queue=document.getElementById('adminReviewQueue');
  if(!panel||!queue)return;
  if(!currentUser||currentProfile?.role!=='admin'){panel.classList.add('hidden');return}
- panel.classList.remove('hidden');
- queue.innerHTML='<span class="tiny amber">checking quarantine queue...</span>';
- const {data,error}=await db.from('submissions').select('id,name,email,lead_type,message,image_name,created_at,status').eq('status','pending').order('created_at',{ascending:true});
+ panel.classList.remove('hidden');queue.innerHTML='<span class="tiny amber">checking quarantine queue...</span>';
+ const {data,error}=await db.from('submissions').select('id,name,email,lead_type,message,image_path,image_name,created_at,status').eq('status','pending').order('created_at',{ascending:true});
  if(error){queue.textContent='QUEUE ERROR: '+error.message;queue.className='red';return}
  queue.className='';queue.innerHTML='';
- if(!data||!data.length){queue.innerHTML='<span class="tiny green">NO PENDING REPORTS.</span>';return}
+ if(!data?.length){queue.innerHTML='<span class="tiny green">NO PENDING REPORTS.</span>';return}
  data.forEach(r=>{
-  const card=document.createElement('div');card.className='file';
-  const h=document.createElement('h4');h.textContent='REPORT #'+r.id+' // '+r.lead_type;card.appendChild(h);
-  const meta=document.createElement('div');meta.className='tiny amber';meta.textContent='STATUS: PENDING // '+fmtDate(r.created_at);card.appendChild(meta);
-  const who=document.createElement('p');who.textContent='submitted by: '+(r.name||'anonymous')+(r.email?' // '+r.email:'');card.appendChild(who);
-  const msg=document.createElement('p');msg.textContent=r.message;card.appendChild(msg);
-  const media=document.createElement('div');media.className='tiny';media.textContent=r.image_name?'ATTACHMENT QUARANTINED: '+r.image_name:'NO MEDIA ATTACHED';card.appendChild(media);
-  queue.appendChild(card);
+  const card=el('div','file');
+  card.appendChild(el('h4','', 'REPORT #'+r.id+' // '+r.lead_type));
+  card.appendChild(el('div','tiny amber','STATUS: PENDING // '+fmtDate(r.created_at)));
+  card.appendChild(el('p','', 'submitted by: '+(r.name||'anonymous')+(r.email?' // '+r.email:'')));
+  card.appendChild(el('p','',r.message));
+  if(r.image_path){
+   card.appendChild(el('div','quarantine','ATTACHMENT QUARANTINED: '+(r.image_name||'unnamed image')));
+   const previewBtn=el('button','btn','PREVIEW QUARANTINED IMAGE');previewBtn.type='button';
+   previewBtn.onclick=async()=>{previewBtn.disabled=true;previewBtn.textContent='OPENING QUARANTINE...';try{const url=await signedEvidenceUrl(r.image_path,300);let img=card.querySelector('.evidence-preview');if(!img){img=document.createElement('img');img.className='evidence-preview';img.alt='Quarantined moderator preview';card.insertBefore(img,previewBtn.nextSibling)}img.src=url;previewBtn.textContent='REFRESH PRIVATE PREVIEW'}catch(err){pop('PREVIEW FAILED: '+err.message);previewBtn.textContent='PREVIEW QUARANTINED IMAGE'}finally{previewBtn.disabled=false}};
+   card.appendChild(previewBtn);
+  }else card.appendChild(el('div','tiny','NO MEDIA ATTACHED'));
+  const actions=el('div','review-actions');
+  const approve=el('button','btn','APPROVE + ARCHIVE');approve.type='button';approve.onclick=()=>reviewSubmission(r.id,'approved',r.image_path);
+  const reject=el('button','btn','REJECT REPORT');reject.type='button';reject.onclick=()=>reviewSubmission(r.id,'rejected',r.image_path);
+  actions.append(approve,reject);card.appendChild(actions);queue.appendChild(card);
  });
 }
 
@@ -284,6 +365,7 @@ theoryForm.onsubmit=async e=>{
 
  status.className='tiny green';
  status.textContent='THREAD MIRRORED SUCCESSFULLY.';
+ sendAdminAlert({event:'NEW HUNTERX FORUM THREAD',thread_id:created.id,handle:currentProfile?.handle||currentUser.email,title:created.title,message:created.body});
 
  // Render the accepted thread immediately. Do not wait for a second database fetch.
  const host=document.getElementById('liveThreads');
@@ -334,11 +416,11 @@ async function openLiveThread(id){
  if(thread.locked){body.appendChild(el('div','notice','THREAD LOCKED BY ARCHIVE ADMINISTRATOR.'));return}
  if(currentUser){
   const form=el('form','form');form.innerHTML='<label>reply:</label><textarea maxlength="5000" required></textarea><button class="btn">POST REPLY</button>';
-  form.onsubmit=async e=>{e.preventDefault();const ta=form.querySelector('textarea'),btn=form.querySelector('button'),reply=ta.value.trim();if(!reply)return;btn.disabled=true;const {error}=await db.from('replies').insert({thread_id:id,author_id:currentUser.id,body:reply});if(error){pop('REPLY FAILED: '+error.message);btn.disabled=false;return}await openLiveThread(id);await loadThreads()};body.appendChild(form)
+  form.onsubmit=async e=>{e.preventDefault();const ta=form.querySelector('textarea'),btn=form.querySelector('button'),reply=ta.value.trim();if(!reply)return;btn.disabled=true;const {error}=await db.from('replies').insert({thread_id:id,author_id:currentUser.id,body:reply});if(error){pop('REPLY FAILED: '+error.message);btn.disabled=false;return}sendAdminAlert({event:'NEW HUNTERX FORUM REPLY',thread_id:id,handle:currentProfile?.handle||currentUser.email,message:reply});await openLiveThread(id);await loadThreads()};body.appendChild(form)
  }else body.appendChild(el('div','notice','RESEARCHER LOGIN REQUIRED TO REPLY.'));
 }
 
-refreshAuth().then(()=>{if(document.getElementById('theories').classList.contains('active'))loadThreads()});
+refreshAuth().then(()=>{if(document.getElementById('theories').classList.contains('active'))loadThreads();if(document.getElementById('cases').classList.contains('active')){loadCommunityArchive();loadAdminQueue()}});
 setTimeout(()=>{if(Math.random()>.5)pop('This page contains archived content from an unknown publisher.')},7000);
 let clicks=0;document.querySelector('.sigil').onclick=()=>{if(++clicks===5){pop('mirror 05 is not empty.');document.body.style.filter='contrast(1.15) saturate(.7)'}};
 </script>
