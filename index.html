@@ -46,7 +46,7 @@ type: "KAMLA" to continue
 <div id="authLoggedIn" class="hidden"><div class="authstate">CONNECTED AS: <b class="green" id="currentHandle">...</b> &nbsp; <a id="logoutLink">[DISCONNECT]</a></div></div>
 <div id="authMessage" class="tiny"></div>
 </div>
-<div id="newThreadPanel" class="hidden"><h3 class="red">CREATE NEW THREAD</h3><form class="form" id="theoryForm"><label>subject:</label><input id="subject" maxlength="120" required><label>message:</label><textarea id="message" maxlength="5000" required></textarea><button class="btn">POST TO MIRROR</button></form></div>
+<div id="newThreadPanel" class="hidden"><h3 class="red">CREATE NEW THREAD</h3><form class="form" id="theoryForm"><label>subject:</label><input id="subject" maxlength="120" required><label>message:</label><textarea id="message" maxlength="5000" required></textarea><button class="btn" id="postThreadButton" type="submit">POST TO MIRROR</button><div id="threadPostStatus" class="tiny" style="margin-top:8px;min-height:16px"></div></form></div>
 </section>
 <section class="page" id="join"><h2 class="title">JOIN THE SEARCH</h2><div class="rule"></div><p>If you have a story, photograph, family rumour, newspaper clipping, map correction or theory connected to the Kamla case, submit a lead below.</p><div class="notice"><b>ARCHIVE NOTE:</b> Do not trespass onto private property. Do not disturb evidence. If you find something, photograph it where it is before moving it.</div><form class="form" id="leadForm"><label>name / handle:</label><input id="leadName" name="name" maxlength="40"><label>email (optional):</label><input id="leadEmail" name="email" type="email"><label>type of lead:</label><select id="leadType" name="lead_type"><option>Eyewitness story</option><option>Photo / video</option><option>Document</option><option>Theory</option><option>Map / location clue</option></select><label>what did you find?</label><textarea id="leadText" name="message" required maxlength="1800"></textarea><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px"><button class="btn">SUBMIT TO ARCHIVE</button></form><div id="leadSuccess" class="lead-success hidden"><h3>TRANSMISSION RECEIVED.</h3><p>Your submission has reached the archive.</p><p>Please wait for a reply on Instagram and follow <a href="https://www.instagram.com/literallykalyani/" target="_blank" rel="noopener">@literallykalyani</a> for updates.</p><p class="tiny">Do not submit the same lead repeatedly unless new evidence has appeared.</p><button class="btn" id="submitAnotherLead" type="button">SUBMIT ANOTHER LEAD</button></div><h3 class="red">FIELD CHECKLIST</h3><ul><li>Preserve originals. Upload copies.</li><li>Write down where and when you found the material.</li><li>Do not alter metadata if you can avoid it.</li><li>If a file changes after you download it, disconnect your computer.</li><li class="red">If the filename changes to your name, delete it.</li></ul></section>
 </main></div>
@@ -154,17 +154,74 @@ async function loadThreads(highlightId=null){
 function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
 theoryForm.onsubmit=async e=>{
- e.preventDefault();if(!currentUser){pop('RESEARCHER LOGIN REQUIRED.');return}
- const title=subject.value.trim(),text=message.value.trim();if(!title||!text)return;
- const button=e.currentTarget.querySelector('button');button.disabled=true;button.textContent='UPLOADING...';
- const {data:created,error}=await db.from('threads').insert({author_id:currentUser.id,title,body:text}).select('id').single();
- button.disabled=false;button.textContent='POST TO MIRROR';
- if(error){pop('UPLOAD FAILED: '+error.message);return}
- e.currentTarget.reset();
- await loadThreads(created?.id||null);
- const fresh=created?.id?document.querySelector('[data-thread-id="'+created.id+'"]'):null;
- if(fresh){fresh.classList.add('just-posted');fresh.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>fresh.classList.remove('just-posted'),3500)}
+ e.preventDefault();
+ if(!currentUser){pop('RESEARCHER LOGIN REQUIRED.');return}
+
+ const titleInput=document.getElementById('subject');
+ const messageInput=document.getElementById('message');
+ const button=document.getElementById('postThreadButton');
+ const status=document.getElementById('threadPostStatus');
+ const title=titleInput.value.trim();
+ const text=messageInput.value.trim();
+ if(!title||!text)return;
+
+ button.disabled=true;
+ button.textContent='UPLOADING...';
+ status.className='tiny amber';
+ status.textContent='transmitting to live mirror...';
+
+ const {data:created,error}=await db.from('threads')
+   .insert({author_id:currentUser.id,title,body:text})
+   .select('id,title,body,created_at,pinned,locked')
+   .single();
+
+ button.disabled=false;
+ button.textContent='POST TO MIRROR';
+
+ if(error){
+   status.className='tiny red';
+   status.textContent='UPLOAD FAILED: '+error.message;
+   pop('UPLOAD FAILED: '+error.message);
+   return;
+ }
+
+ // Clear the fields explicitly so browser ID globals/autofill cannot interfere.
+ titleInput.value='';
+ messageInput.value='';
+
+ status.className='tiny green';
+ status.textContent='THREAD MIRRORED SUCCESSFULLY.';
+
+ // Render the accepted thread immediately. Do not wait for a second database fetch.
+ const host=document.getElementById('liveThreads');
+ if(host){
+   const empty=host.querySelector('.tiny');
+   if(empty && empty.textContent.includes('NO LIVE THREADS FOUND')) clear(host);
+
+   const row=el('div','live-thread just-posted');
+   row.dataset.threadId=String(created.id);
+   const meta=el('div','meta');
+   const handle=currentProfile?.handle||currentUser.email||'unknown';
+   meta.textContent='#L'+created.id+' · '+fmtDate(created.created_at)+' · '+handle+' · 0 replies';
+   const a=el('a','subject',created.title);
+   a.href='#';
+   a.onclick=ev=>{ev.preventDefault();openLiveThread(created.id)};
+   const preview=el('span','tiny preview',created.body.length>180?created.body.slice(0,180)+'...':created.body);
+   row.append(meta,a,document.createElement('br'),preview);
+   host.prepend(row);
+
+   const currentCount=parseInt(liveCount.textContent,10);
+   const nextCount=Number.isFinite(currentCount)?currentCount+1:1;
+   liveCount.textContent=nextCount+' live thread'+(nextCount===1?'':'s');
+
+   row.scrollIntoView({behavior:'smooth',block:'center'});
+   setTimeout(()=>row.classList.remove('just-posted'),3500);
+ }
+
  pop('THREAD MIRRORED TO LIVE ARCHIVE.');
+
+ // Quiet reconciliation with Supabase after the instant UI update.
+ setTimeout(()=>loadThreads(created.id),700);
 };
 
 async function openLiveThread(id){
